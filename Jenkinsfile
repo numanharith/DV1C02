@@ -1,9 +1,9 @@
 pipeline {
   agent any
   stages {
-    stage('test') {
+    stage('Build & Test') {
       steps {
-        sh 'echo "test"'
+        sh 'mvn clean install test'
       }
     }
 
