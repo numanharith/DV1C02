@@ -1,13 +1,10 @@
 pipeline {
   agent any
+  tools {
+        maven 'Maven 3.8.6'
+        jdk 'jdk11'
+  }
   stages {
-    stage('Tools') {
-      steps {
-        tool(name: 'maven', type: 'Maven 3.8.6')
-        tool(name: 'jdk', type: 'jdk11')
-      }
-    }
-
     stage('Build') {
       steps {
         sh 'man clean install test'
