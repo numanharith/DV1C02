@@ -11,5 +11,11 @@ pipeline {
         sh 'mvn clean install test'
       }
     }
+    
+    stage('SonarQube Analysis') {
+      withSonarQubeEnv() {
+        sh "mvn clean verify sonar:sonar -Dsonar.projectKey=dv1c02-pet-clinic"
+      }
+    }
   }
 }
