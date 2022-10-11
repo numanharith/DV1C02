@@ -43,7 +43,7 @@ class VetController {
         return vetRepository.findAll(pageable);
     }
 
-    @GetMapping({ "/vets "})
+    @GetMapping({ "/vets"})
     public @ResponseBody Vets showResourcesVetList() {
         Vets vets = new Vets();
         vets.getVetList().addAll(this.vetRepository.findAll());
