@@ -13,7 +13,7 @@ import java.util.Collection;
 @Controller
 @RequestMapping("/owners/{ownerId}")
 class PetController {
-    private static final String VIEWS_PETS_CREATE_OR_UPDATE_FROM = "pets/createOrUpdateForm";
+    private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
 
     private final OwnerRepository owners;
 
@@ -47,15 +47,15 @@ class PetController {
         dataBinder.setValidator(new PetValidator());
     }
 
-    @GetMapping("pets/new")
+    @GetMapping("/pets/new")
     public String initCreationForm(Owner owner, ModelMap model) {
         Pet pet = new Pet();
         owner.addPet(pet);
         model.put("pet", pet);
-        return VIEWS_PETS_CREATE_OR_UPDATE_FROM;
+        return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
     }
 
-    @PostMapping
+    @PostMapping("/pets/new")
     public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {
         if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null) {
             result.rejectValue("name", "duplicate", "already exists");
@@ -64,7 +64,7 @@ class PetController {
         owner.addPet(pet);
         if (result.hasErrors()) {
             model.put("pet", pet);
-            return VIEWS_PETS_CREATE_OR_UPDATE_FROM;
+            return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
         }
 
         this.owners.save(owner);
@@ -75,14 +75,14 @@ class PetController {
     public String initUpdateForm(Owner owner, @PathVariable("petId") int petId, ModelMap model) {
         Pet pet = owner.getPet(petId);
         model.put("pet", pet);
-        return VIEWS_PETS_CREATE_OR_UPDATE_FROM;
+        return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
     }
 
     @PostMapping("/pets/{petId}/edit")
     public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, ModelMap model) {
         if (result.hasErrors()) {
             model.put("pet", pet);
-            return VIEWS_PETS_CREATE_OR_UPDATE_FROM;
+            return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
         }
 
         owner.addPet(pet);

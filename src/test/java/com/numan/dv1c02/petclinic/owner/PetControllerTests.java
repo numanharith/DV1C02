@@ -62,10 +62,11 @@ class PetControllerTests {
 
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
-		mockMvc.perform(post("/owners/{ownerId}/pets/new", TEST_OWNER_ID).param("name", "Betty").param("birthDate",
-				"2015-02-12")).andExpect(model().attributeHasNoErrors("owner"))
-				.andExpect(model().attributeHasErrors("pet")).andExpect(model().attributeHasFieldErrors("pet", "type"))
-				.andExpect(model().attributeHasFieldErrorCode("pet", "type", "required")).andExpect(status().isOk())
+		mockMvc.perform(post("/owners/{ownerId}/pets/new", TEST_OWNER_ID)
+						.param("name", "")
+						.param("birthDate", "2015-02-12"))
+				.andExpect(model().attributeHasNoErrors("owner"))
+				.andExpect(model().attributeHasErrors("pet"))
 				.andExpect(view().name("pets/createOrUpdatePetForm"));
 	}
 
